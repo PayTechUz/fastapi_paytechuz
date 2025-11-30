@@ -9,7 +9,7 @@ fastapi==0.121.3
 h11==0.16.0
 idna==3.11
 marshmallow==4.1.0
-paytechuz==0.3.19
+paytechuz==0.3.20
 pydantic==2.12.4
 pydantic_core==2.41.5
 python-dotenv==1.2.1
