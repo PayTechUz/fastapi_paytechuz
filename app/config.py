@@ -18,3 +18,5 @@ ATMOS_TERMINAL_ID = env.str("ATMOS_TERMINAL_ID")
 ATMOS_API_KEY = env.str("ATMOS_API_KEY")
 
 IS_TEST_MODE = env.bool("IS_TEST_MODE", True)
+PAYTECH_LICENSE_API_KEY = env.str("PAYTECH_LICENSE_API_KEY", "your_license_key")
+

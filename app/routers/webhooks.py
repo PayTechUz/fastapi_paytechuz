@@ -24,7 +24,8 @@ async def payme_webhook(request: Request, db: Session = Depends(get_db)):
         payme_key=config.PAYME_KEY,
         account_model=Invoice,
         account_field='id',
-        amount_field='amount'
+        amount_field='amount',
+        license_api_key=config.PAYTECH_LICENSE_API_KEY
     )
     return await handler.handle_webhook(request)
 
@@ -35,14 +36,18 @@ async def click_webhook(request: Request, db: Session = Depends(get_db)):
         db=db,
         service_id=config.CLICK_SERVICE_ID,
         secret_key=config.CLICK_SECRET_KEY,
-        account_model=Invoice
+        account_model=Invoice,
+        license_api_key=config.PAYTECH_LICENSE_API_KEY
     )
     return await handler.handle_webhook(request)
 
 
 @router.post("/atmos")
 async def atmos_webhook(request: Request, db: Session = Depends(get_db)):
-    atmos_handler = AtmosWebhookHandler(api_key=config.ATMOS_API_KEY)
+    atmos_handler = AtmosWebhookHandler(
+        api_key=config.ATMOS_API_KEY,
+        license_api_key=config.PAYTECH_LICENSE_API_KEY
+    )
 
     try:
         body = await request.body()
