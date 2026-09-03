@@ -52,7 +52,7 @@ class PaymentResponse(BaseModel):
 class PaymentLinkRequest(BaseModel):
     """Request model for generating payment link"""
     order_id: int
-    payment_method: str  # "payme", "click" or "atmos"
+    payment_method: str  # "payme" or "click"
     return_url: Optional[str] = "https://example.com/return"
 
 

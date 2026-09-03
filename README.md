@@ -1,6 +1,11 @@
 # Payment Integration Example
 
-Modern FastAPI REST API for payment processing with Payme, Click, and Atmos integration.
+Modern FastAPI REST API for payment processing with Payme and Click, built on
+[PayTechUZ](https://github.com/PayTechUz/paytechuz).
+
+> **No license key.** PayTechUZ is MIT-licensed and fully open source since
+> `0.4.0`. There is no `PAYTECH_LICENSE_API_KEY`, no activation and no usage
+> limit — you only need your gateway credentials from Payme and Click.
 
 ## Quick Start
 
@@ -56,14 +61,13 @@ Content-Type: application/json
 **Fields:**
 - `id` - Order ID
 - `amount` - Payment amount
-- `payment_method` - Gateway name (payme, click, atmos)
+- `payment_method` - Gateway name (payme, click)
 - `payment_link` - Payment URL to redirect user
 
 ### Webhooks
 
 - `POST /api/v1/webhooks/payme` - Payme webhook
 - `POST /api/v1/webhooks/click` - Click webhook
-- `POST /api/v1/webhooks/atmos` - Atmos webhook
 
 ## cURL Examples
 
@@ -109,27 +113,6 @@ curl -X POST http://127.0.0.1:8000/api/v1/orders \
 }
 ```
 
-**Atmos Payment:**
-```bash
-curl -X POST http://127.0.0.1:8000/api/v1/orders \
-  -H "Content-Type: application/json" \
-  -d '{
-    "product_name": "Annual Subscription",
-    "amount": 500000.00,
-    "payment_method": "atmos"
-  }'
-```
-
-**Response:**
-```json
-{
-    "id": 3,
-    "amount": 500000.00,
-    "payment_method": "atmos",
-    "payment_link": "https://partner.atmos.uz/..."
-}
-```
-
 ## Testing Webhooks Locally
 
 Use `jprq` or `ngrok` to expose your local server:
@@ -145,12 +128,11 @@ ngrok http 8000
 Configure webhook URLs in payment gateway admin panels:
 - Payme: `https://your-domain.com/api/v1/webhooks/payme`
 - Click: `https://your-domain.com/api/v1/webhooks/click`
-- Atmos: `https://your-domain.com/api/v1/webhooks/atmos`
 
 ## Resources
 
-- [PayTechUZ Documentation](https://github.com/PayTechUz/paytechuz)
+- [PayTechUZ Documentation](https://pay-tech.uz)
+- [PayTechUZ on GitHub](https://github.com/PayTechUz/paytechuz)
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [Payme Documentation](https://developer.help.paycom.uz/)
 - [Click Documentation](https://docs.click.uz/)
-- [Atmos Documentation](https://atmos.uz/developers)

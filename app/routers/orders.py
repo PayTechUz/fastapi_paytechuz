@@ -22,7 +22,7 @@ async def create_order(order_data: OrderCreate, db: Session = Depends(get_db)):
     if not gateway:
         raise HTTPException(
             status_code=400,
-            detail="Invalid payment method. Use 'payme', 'click', or 'atmos'"
+            detail="Invalid payment method. Use 'payme' or 'click'"
         )
 
     db_order = Order(
@@ -59,13 +59,6 @@ async def create_order(order_data: OrderCreate, db: Session = Depends(get_db)):
             amount=int(order_data.amount),
             description=db_order.product_name,
             return_url="https://example.com/return"
-        )
-        payment_link = payment_result.get("payment_url")
-
-    if payment_method == "atmos":
-        payment_result = gateway.create_payment(
-            account_id=str(db_invoice.id),
-            amount=int(order_data.amount * 100)
         )
         payment_link = payment_result.get("payment_url")
 

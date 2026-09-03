@@ -1,8 +1,5 @@
-import json
-
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, Request
-from paytechuz.gateways.atmos.webhook import AtmosWebhookHandler
 
 from app import config
 from app.models import Invoice
@@ -24,8 +21,7 @@ async def payme_webhook(request: Request, db: Session = Depends(get_db)):
         payme_key=config.PAYME_KEY,
         account_model=Invoice,
         account_field='id',
-        amount_field='amount',
-        license_api_key=config.PAYTECH_LICENSE_API_KEY
+        amount_field='amount'
     )
     return await handler.handle_webhook(request)
 
@@ -36,37 +32,6 @@ async def click_webhook(request: Request, db: Session = Depends(get_db)):
         db=db,
         service_id=config.CLICK_SERVICE_ID,
         secret_key=config.CLICK_SECRET_KEY,
-        account_model=Invoice,
-        license_api_key=config.PAYTECH_LICENSE_API_KEY
+        account_model=Invoice
     )
     return await handler.handle_webhook(request)
-
-
-@router.post("/atmos")
-async def atmos_webhook(request: Request, db: Session = Depends(get_db)):
-    atmos_handler = AtmosWebhookHandler(
-        api_key=config.ATMOS_API_KEY,
-        license_api_key=config.PAYTECH_LICENSE_API_KEY
-    )
-
-    try:
-        body = await request.body()
-        webhook_data = json.loads(body.decode('utf-8'))
-
-        response = atmos_handler.handle_webhook(webhook_data)
-
-        if response['status'] == 1:
-            invoice_id = webhook_data.get('invoice')
-
-            invoice = db.query(Invoice).filter(Invoice.id == invoice_id).first()
-            if invoice:
-                invoice.status = "paid"
-                db.commit()
-
-        return response
-
-    except Exception as e:
-        return {
-            'status': 0,
-            'message': f'Error: {str(e)}'
-        }
