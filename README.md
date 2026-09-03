@@ -3,10 +3,6 @@
 Modern FastAPI REST API for payment processing with Payme and Click, built on
 [PayTechUZ](https://github.com/PayTechUz/paytechuz).
 
-> **No license key.** PayTechUZ is MIT-licensed and fully open source since
-> `0.4.0`. There is no `PAYTECH_LICENSE_API_KEY`, no activation and no usage
-> limit — you only need your gateway credentials from Payme and Click.
-
 ## Quick Start
 
 ### 1. Install Dependencies
